@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        // Create call
+        // Create call to getTempoDaysLeft
         Call<TempoDaysLeft> call = edfApi.getTempoDaysLeft(IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
 
         call.enqueue(new Callback<TempoDaysLeft>() {
@@ -50,9 +50,30 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<TempoDaysLeft> call, @NonNull Throwable t) {
-
+                Log.e(LOG_TAG, "call to getTempoDaysLeft () failed ");
             }
         });
 
+        // Call to getTempoDaysColor
+        Call<TempoDaysColor> call2;
+        call2 = edfApi.getTempoDaysColor("2022-12-05",IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
+
+        call2.enqueue(new Callback<TempoDaysColor>() {
+            @Override
+            public void onResponse(@NonNull Call<TempoDaysColor> call, @NonNull Response<TempoDaysColor> response) {
+                TempoDaysColor tempoDaysColor = response.body();
+                if (response.code() == HttpURLConnection.HTTP_OK && tempoDaysColor != null) {
+                    Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ());
+                    Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1());
+                } else {
+                    Log.w(LOG_TAG, "call to getTempoDaysColor() failed with error code " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TempoDaysColor> call, @NonNull Throwable t) {
+                Log.e(LOG_TAG, "call to getTempoDaysColor() failed ");
+            }
+        });
     }
 }
