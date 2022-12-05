@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<TempoDaysColor> call, @NonNull Response<TempoDaysColor> response) {
                 TempoDaysColor tempoDaysColor = response.body();
                 if (response.code() == HttpURLConnection.HTTP_OK && tempoDaysColor != null) {
-                    Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ());
-                    Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1());
+                    Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ().toString());
+                    Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1().toString());
                 } else {
                     Log.w(LOG_TAG, "call to getTempoDaysColor() failed with error code " + response.code());
                 }
