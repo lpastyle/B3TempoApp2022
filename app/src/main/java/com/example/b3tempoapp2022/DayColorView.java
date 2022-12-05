@@ -16,14 +16,19 @@ import androidx.core.content.ContextCompat;
  * TODO: document your custom view class.
  */
 public class DayColorView extends View {
+
+    private static final float CIRCLE_SCALE = 0.9f; // circle will occupy 90% of room's view
+    // Custom attributes data model
     private String captionText;
-    private int captionColor = Color.BLACK; // TODO: use a default from R.color...
-    private float captionTextSize = 0; // TODO: use a default from R.dimen...
+    private int captionColor = Color.BLACK;
+    private float captionTextSize = 0;
     private int dayCircleColor = Color.GRAY;
 
     private Context context;
 
-    private TextPaint mTextPaint;
+    private TextPaint textPaint;
+    private Paint circlePaint;
+
     private float mTextWidth;
     private float mTextHeight;
 
@@ -58,22 +63,22 @@ public class DayColorView extends View {
         }
 
         // Set up a default TextPaint object
-        mTextPaint = new TextPaint();
-        mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        mTextPaint.setTextAlign(Paint.Align.LEFT);
-
-        // Update TextPaint and text measurements from attributes
-        invalidateTextPaintAndMeasurements();
-    }
-
-    private void invalidateTextPaintAndMeasurements() {
-        mTextPaint.setTextSize(captionTextSize);
-        mTextPaint.setColor(captionColor);
-        mTextWidth = mTextPaint.measureText(captionText);
-
-        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
+        textPaint = new TextPaint();
+        textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setTextAlign(Paint.Align.LEFT);
+        textPaint.setTextSize(captionTextSize);
+        textPaint.setColor(captionColor);
+        mTextWidth = textPaint.measureText(captionText);
+        Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
         mTextHeight = fontMetrics.bottom;
+
+        // set up a default paint object
+        circlePaint = new Paint();
+        circlePaint.setStyle(Paint.Style.FILL);
+        circlePaint.setColor(dayCircleColor);
+
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -93,14 +98,11 @@ public class DayColorView extends View {
         canvas.drawText(captionText,
                 paddingLeft + (contentWidth - mTextWidth) / 2,
                 paddingTop + (contentHeight + mTextHeight) / 2,
-                mTextPaint);
+                textPaint);
 
-        // Draw the example drawable on top of the text.
-        if (mExampleDrawable != null) {
-            mExampleDrawable.setBounds(paddingLeft, paddingTop,
-                    paddingLeft + contentWidth, paddingTop + contentHeight);
-            mExampleDrawable.draw(canvas);
-        }
+        // Draw circle
+        float radius = Math.min(contentHeight, contentWidth) * 0.5f * CIRCLE_SCALE;
+        canvas.drawCircle(contentWidth * 0.5f, contentHeight * 0.5f, radius, circlePaint);
     }
 
     /**
