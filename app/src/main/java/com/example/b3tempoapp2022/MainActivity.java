@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+
+import com.example.b3tempoapp2022.databinding.ActivityMainBinding;
 
 import java.net.HttpURLConnection;
 
@@ -16,11 +19,13 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     public static IEdfApi edfApi;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Init Retrofit client
         Retrofit retrofitClient = ApiClient.get();
@@ -43,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(LOG_TAG, "nb red days = " + tempoDaysLeft.getParamNbJRouge());
                     Log.d(LOG_TAG, "nb white days = " + tempoDaysLeft.getParamNbJBlanc());
                     Log.d(LOG_TAG, "nb blue days = " + tempoDaysLeft.getParamNbJBleu());
+                    binding.blueDaysTv.setText(String.valueOf(tempoDaysLeft.getParamNbJBleu()));
+                    binding.whiteDaysTv.setText(String.valueOf(tempoDaysLeft.getParamNbJBlanc()));
+                    binding.redDaysTv.setText(String.valueOf(tempoDaysLeft.getParamNbJRouge()));
                 } else {
                     Log.w(LOG_TAG, "call to getTempoDaysLeft () failed with error code " + response.code());
                 }
