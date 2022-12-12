@@ -58,7 +58,7 @@ public class DayColorView extends View {
             if (captionText == null) {
                 captionText = context.getString(R.string.not_set);
             }
-            captionColor = a.getColor(R.styleable.DayColorView_captionColor, captionColor);
+            captionColor = a.getColor(R.styleable.DayColorView_captionTextColor, captionColor);
             captionTextSize = a.getDimension(R.styleable.DayColorView_captionTextSize, getResources().getDimension(R.dimen.tempo_color_text_size));
             dayCircleColor = a.getColor(R.styleable.DayColorView_dayCircleColor, ContextCompat.getColor(context, R.color.tempo_undecided_day_bg));
         } finally {
