@@ -18,7 +18,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     public static IEdfApi edfApi;
     ActivityMainBinding binding;
@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // init views
+        binding.historyBt.setOnClickListener(this);
 
         // Init Retrofit client
         Retrofit retrofitClient = ApiClient.get();
@@ -89,7 +92,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void showHistory(View view) {
+  /*  public void showHistory(View view) {
+        Intent intent = new Intent();
+        intent.setClass(this,HistoryActivity.class);
+        startActivity(intent);
+    } */
+
+    @Override
+    public void onClick(View v) {
         Intent intent = new Intent();
         intent.setClass(this,HistoryActivity.class);
         startActivity(intent);
