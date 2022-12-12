@@ -64,15 +64,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Call to getTempoDaysColor
         Call<TempoDaysColor> call2;
-        call2 = edfApi.getTempoDaysColor("2022-12-05",IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
+        call2 = edfApi.getTempoDaysColor("2022-12-12",IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
 
         call2.enqueue(new Callback<TempoDaysColor>() {
             @Override
             public void onResponse(@NonNull Call<TempoDaysColor> call, @NonNull Response<TempoDaysColor> response) {
                 TempoDaysColor tempoDaysColor = response.body();
                 if (response.code() == HttpURLConnection.HTTP_OK && tempoDaysColor != null) {
-                    Log.d(LOG_TAG,"Today color = "+tempoDaysColor.getCouleurJourJ().toString());
-                    Log.d(LOG_TAG,"Tomorrow color = "+tempoDaysColor.getCouleurJourJ1().toString());
+                    Log.d(LOG_TAG,"Today color = " + tempoDaysColor.getCouleurJourJ().toString());
+                    Log.d(LOG_TAG,"Tomorrow color = " + tempoDaysColor.getCouleurJourJ1().toString());
+                    binding.todayDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ());
+                    binding.tomorrowDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ1());
                 } else {
                     Log.w(LOG_TAG, "call to getTempoDaysColor() failed with error code " + response.code());
                 }
