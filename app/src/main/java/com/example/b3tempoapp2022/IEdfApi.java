@@ -21,4 +21,12 @@ public interface IEdfApi {
             @Query("TypeAlerte") String alertType
     );
 
+    // https://particulier.edf.fr/services/rest/referentiel/historicTEMPOStore?dateBegin=2020&dateEnd=2021
+
+    @GET("services/rest/referentiel/historicTEMPOStore")
+    Call<TempoHistory> getTempoHistory(
+            @retrofit2.http.Query("dateBegin") String dateBegin,
+            @retrofit2.http.Query("dateEnd") String dateEnd
+    );
+
 }
