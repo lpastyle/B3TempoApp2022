@@ -25,8 +25,8 @@ public interface IEdfApi {
 
     @GET("services/rest/referentiel/historicTEMPOStore")
     Call<TempoHistory> getTempoHistory(
-            @retrofit2.http.Query("dateBegin") String dateBegin,
-            @retrofit2.http.Query("dateEnd") String dateEnd
+            @Query("dateBegin") String dateBegin,
+            @Query("dateEnd") String dateEnd
     );
 
 }
