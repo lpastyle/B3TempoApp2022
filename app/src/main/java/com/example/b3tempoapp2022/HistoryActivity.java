@@ -4,9 +4,13 @@ import static com.example.b3tempoapp2022.MainActivity.edfApi;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.util.Log;
+
+import com.example.b3tempoapp2022.databinding.ActivityHistoryBinding;
+import com.example.b3tempoapp2022.databinding.ActivityMainBinding;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -19,13 +23,27 @@ import retrofit2.Response;
 public class HistoryActivity extends AppCompatActivity {
     private static final String LOG_TAG = HistoryActivity.class.getSimpleName();
 
+    // Init views
+    ActivityHistoryBinding binding;
+
     // Data model
     List<TempoDate> tempoDates = new ArrayList<>();
+
+    // RV adapter
+    TempoDateAdapter tempoDateAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
+        binding = ActivityHistoryBinding.inflate(getLayoutInflater());
+        //setContentView(R.layout.activity_history);
+        setContentView(binding.getRoot());
+
+        // Init recycler view
+        binding.tempoHistoryRv.setHasFixedSize(true);
+        binding.tempoHistoryRv.setLayoutManager(new LinearLayoutManager(this));
+        tempoDateAdapter = new TempoDateAdapter();
+        binding.tempoHistoryRv.setAdapter(tempoDateAdapter);
 
         if (edfApi != null) {
             // Create call to getTempoDaysLeft
