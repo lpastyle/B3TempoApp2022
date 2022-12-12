@@ -64,21 +64,31 @@ public class DayColorView extends View {
 
         // Set up a default TextPaint object
         textPaint = new TextPaint();
+        setTextPaintAndMeasurements();
+        // set up a default paint object
+        circlePaint = new Paint();
+        setCirclePaint();
+    }
+
+
+    private void setTextPaintAndMeasurements() {
+        // set up a default TextPaint object
         textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         textPaint.setTextAlign(Paint.Align.LEFT);
         textPaint.setTextSize(captionTextSize);
         textPaint.setColor(captionColor);
+
+        // compute dimensions to be used for drawing text
         mTextWidth = textPaint.measureText(captionText);
         Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
         mTextHeight = fontMetrics.bottom;
-
-        // set up a default paint object
-        circlePaint = new Paint();
-        circlePaint.setStyle(Paint.Style.FILL);
-        circlePaint.setColor(dayCircleColor);
-
     }
 
+    private void setCirclePaint() {
+        // set up a paint object to draw circle
+        circlePaint.setStyle(Paint.Style.FILL);
+        circlePaint.setColor(dayCircleColor);
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -91,96 +101,25 @@ public class DayColorView extends View {
         int paddingRight = getPaddingRight();
         int paddingBottom = getPaddingBottom();
 
+
         int contentWidth = getWidth() - paddingLeft - paddingRight;
         int contentHeight = getHeight() - paddingTop - paddingBottom;
+
+        // Draw circle
+        float radius = Math.min(contentHeight, contentWidth) * 0.5f * CIRCLE_SCALE;
+        canvas.drawCircle(contentWidth * 0.5f, contentHeight * 0.5f, radius, circlePaint);
 
         // Draw the text.
         canvas.drawText(captionText,
                 paddingLeft + (contentWidth - mTextWidth) / 2,
                 paddingTop + (contentHeight + mTextHeight) / 2,
                 textPaint);
-
-        // Draw circle
-        float radius = Math.min(contentHeight, contentWidth) * 0.5f * CIRCLE_SCALE;
-        canvas.drawCircle(contentWidth * 0.5f, contentHeight * 0.5f, radius, circlePaint);
     }
 
-    /**
-     * Gets the example string attribute value.
-     *
-     * @return The example string attribute value.
-     */
-    public String getExampleString() {
-        return captionText;
+    public void setDayCircleColor(TempoColor color) {
+        dayCircleColor = ContextCompat.getColor(context, color.getResId());
+        setCirclePaint();
+        invalidate();
     }
 
-    /**
-     * Sets the view"s example string attribute value. In the example view, this string
-     * is the text to draw.
-     *
-     * @param exampleString The example string attribute value to use.
-     */
-    public void setExampleString(String exampleString) {
-        captionText = exampleString;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example color attribute value.
-     *
-     * @return The example color attribute value.
-     */
-    public int getExampleColor() {
-        return captionColor;
-    }
-
-    /**
-     * Sets the view"s example color attribute value. In the example view, this color
-     * is the font color.
-     *
-     * @param exampleColor The example color attribute value to use.
-     */
-    public void setExampleColor(int exampleColor) {
-        captionColor = exampleColor;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example dimension attribute value.
-     *
-     * @return The example dimension attribute value.
-     */
-    public float getExampleDimension() {
-        return captionTextSize;
-    }
-
-    /**
-     * Sets the view"s example dimension attribute value. In the example view, this dimension
-     * is the font size.
-     *
-     * @param exampleDimension The example dimension attribute value to use.
-     */
-    public void setExampleDimension(float exampleDimension) {
-        captionTextSize = exampleDimension;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example drawable attribute value.
-     *
-     * @return The example drawable attribute value.
-     */
-    public Drawable getExampleDrawable() {
-        return mExampleDrawable;
-    }
-
-    /**
-     * Sets the view"s example drawable attribute value. In the example view, this drawable is
-     * drawn above the text.
-     *
-     * @param exampleDrawable The example drawable attribute value to use.
-     */
-    public void setExampleDrawable(Drawable exampleDrawable) {
-        mExampleDrawable = exampleDrawable;
-    }
 }
