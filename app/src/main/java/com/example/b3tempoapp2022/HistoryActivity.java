@@ -42,7 +42,7 @@ public class HistoryActivity extends AppCompatActivity {
         // Init recycler view
         binding.tempoHistoryRv.setHasFixedSize(true);
         binding.tempoHistoryRv.setLayoutManager(new LinearLayoutManager(this));
-        tempoDateAdapter = new TempoDateAdapter();
+        tempoDateAdapter = new TempoDateAdapter(tempoDates, this);
         binding.tempoHistoryRv.setAdapter(tempoDateAdapter);
 
         if (edfApi != null) {
@@ -57,6 +57,7 @@ public class HistoryActivity extends AppCompatActivity {
                         tempoDates.addAll(response.body().getTempoDates());
                         Log.d(LOG_TAG,"nb elements = " + tempoDates.size());
                     }
+                    tempoDateAdapter.notifyDataSetChanged();
                 }
 
                 @Override
