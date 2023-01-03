@@ -7,6 +7,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     public static final String CHANNEL_ID = "tempo_alert_channel_id";
+    private static final int ALARM_MANAGER_REQUEST_CODE = 2023;
 
     public static IEdfApi edfApi;
     ActivityMainBinding binding;
@@ -41,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Create notification channel
         createNotificationChannel();
+
+        // init tempo alarm
+        initAlarmManager();
 
         // Init Retrofit client
         Retrofit retrofitClient = ApiClient.get();
@@ -135,6 +140,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+    private void initAlarmManager() {
+
+        // create a pending intent
+        Intent intent = new Intent(this, TempoAlarmReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(
+                this,
+                ALARM_MANAGER_REQUEST_CODE,
+                intent,
+                0
+        );
+
+        )
+    }
+
 
   /*  public void showHistory(View view) {
         Intent intent = new Intent();
