@@ -2,6 +2,8 @@ package com.example.b3tempoapp2022;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(LOG_TAG,"Tomorrow color = " + tempoDaysColor.getCouleurJourJ1().toString());
                     binding.todayDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ());
                     binding.tomorrowDcv.setDayCircleColor(tempoDaysColor.getCouleurJourJ1());
+                    checkColor4Notif(tempoDaysColor.getCouleurJourJ1());
                 } else {
                     Log.w(LOG_TAG, "call to getTempoDaysColor() failed with error code " + response.code());
                 }
@@ -114,6 +117,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    private void checkColor4Notif(TempoColor color) {
+        if (color == TempoColor.RED || color == TempoColor.WHITE) {
+            // create notification
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.mipmap.ic_launcher) // mandatory setting !
+                    .setContentTitle(getString(R.string.tempo_notif_title))
+                    .setContentText(getString(R.string.tempo_notif_text) + color)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            // show notification
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(Tools.getNextNotifId(), builder.build());
+        }
+
     }
 
   /*  public void showHistory(View view) {
