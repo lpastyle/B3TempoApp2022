@@ -144,15 +144,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initAlarmManager() {
 
         // create a pending intent
-        Intent intent = new Intent(this, TempoAlarmReceiver.class);
+        /*Intent intent = new Intent(this, TempoAlarmReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(
                 this,
                 ALARM_MANAGER_REQUEST_CODE,
                 intent,
                 0
-        );
-
-        )
+        );*/
     }
 
 
