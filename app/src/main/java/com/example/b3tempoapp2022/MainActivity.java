@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // init views
         binding.historyBt.setOnClickListener(this);
 
+        // Create notification channel
+        createNotificationChannel();
+
         // Init Retrofit client
         Retrofit retrofitClient = ApiClient.get();
         if (retrofitClient != null) {
@@ -90,6 +93,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e(LOG_TAG, "call to getTempoDaysColor() failed ");
             }
         });
+    }
+
+    private void createNotificationChannel() {
+
     }
 
   /*  public void showHistory(View view) {
