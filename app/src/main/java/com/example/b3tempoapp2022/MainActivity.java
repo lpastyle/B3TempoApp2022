@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.mipmap.ic_launcher) // mandatory setting !
                     .setContentTitle(getString(R.string.tempo_notif_title))
-                    .setContentText(getString(R.string.tempo_notif_text) + color)
+                    .setContentText(getString(R.string.tempo_notif_text, getString(color.getStringResId())))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
             // show notification

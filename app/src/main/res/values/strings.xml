@@ -11,7 +11,7 @@
     <string name="channel_name">Alertes Tempo</string>
     <string name="channel_description">Alerte Tempo pour les jours blancs ou rouges</string>
     <string name="tempo_notif_title">Alerte Tempo</string>
-    <string name="tempo_notif_text">"Demain jour "</string>
+    <string name="tempo_notif_text">"Demain jour %s"</string>
 
     <string name="tempo_red_color_text">rouge</string>
     <string name="tempo_white_color_text">blanc</string>
