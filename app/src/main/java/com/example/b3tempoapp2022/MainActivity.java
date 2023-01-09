@@ -182,8 +182,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 AlarmManager.INTERVAL_DAY, alarmIntent);
     }
 
-
-  /*  public void showHistory(View view) {
+  /* Obsolete way to handle button click based on the button's 'onClick' XML attribute
+    public void showHistory(View view) {
         Intent intent = new Intent();
         intent.setClass(this,HistoryActivity.class);
         startActivity(intent);
