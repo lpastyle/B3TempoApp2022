@@ -57,6 +57,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateNbTempoDaysLeft();
+        updateTempoDaysColor();
+    }
+
+    private void updateNbTempoDaysLeft() {
         // Create call to getTempoDaysLeft
         Call<TempoDaysLeft> call = edfApi.getTempoDaysLeft(IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
 
@@ -82,11 +92,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        // Call to getTempoDaysColor
-        Call<TempoDaysColor> call2;
-        call2 = edfApi.getTempoDaysColor("2022-12-12",IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
+    }
 
-        call2.enqueue(new Callback<TempoDaysColor>() {
+    private void updateTempoDaysColor() {
+        // Call to getTempoDaysColor
+        Call<TempoDaysColor> call;
+        call = edfApi.getTempoDaysColor("2022-12-12",IEdfApi.EDF_TEMPO_API_ALERT_TYPE);
+
+        call.enqueue(new Callback<TempoDaysColor>() {
             @Override
             public void onResponse(@NonNull Call<TempoDaysColor> call, @NonNull Response<TempoDaysColor> response) {
                 TempoDaysColor tempoDaysColor = response.body();
