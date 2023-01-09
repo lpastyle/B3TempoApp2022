@@ -1,23 +1,25 @@
 package com.example.b3tempoapp2022;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.b3tempoapp2022.databinding.ActivityMainBinding;
 
 import java.net.HttpURLConnection;
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -159,13 +161,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initAlarmManager() {
 
         // create a pending intent
-        /*Intent intent = new Intent(this, TempoAlarmReceiver.class);
+        Intent intent = new Intent(this, TempoAlarmReceiver.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(
                 this,
                 ALARM_MANAGER_REQUEST_CODE,
                 intent,
-                0
-        );*/
+                PendingIntent.FLAG_IMMUTABLE
+        );
+
+        // Set the alarm to start at approximately 11:15 a.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 15);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        // With setInexactRepeating(), you have to use one of the AlarmManager interval
+        // constants--in this case, AlarmManager.INTERVAL_DAY.
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmIntent);
     }
 
 
