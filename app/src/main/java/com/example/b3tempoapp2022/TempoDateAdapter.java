@@ -4,12 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.b3tempoapp2022.databinding.TempoDateItemBinding;
@@ -44,7 +41,7 @@ public class TempoDateAdapter extends RecyclerView.Adapter<TempoDateAdapter.Temp
     @Override
     public void onBindViewHolder(@NonNull TempoDateViewHolder holder, int position) {
         holder.binding.dateTv.setText(tempoDates.get(position).getDate());
-        holder.binding.colorFl.setBackgroundColor(ContextCompat.getColor(context, tempoDates.get(position).getCouleur().getResId()));
+        holder.binding.colorFl.setBackgroundColor(ContextCompat.getColor(context, tempoDates.get(position).getCouleur().getColorResId()));
 
         // old way of proceeding with findViewById
         //holder.dateTv.setText(tempoDates.get(position).getDate());
