@@ -46,29 +46,34 @@ public class HistoryActivity extends AppCompatActivity {
         binding.tempoHistoryRv.setAdapter(tempoDateAdapter);
 
         if (edfApi != null) {
-            // Create call to getTempoDaysLeft
-            Call<TempoHistory> call = edfApi.getTempoHistory("2021", "2022");
-
-            call.enqueue(new Callback<TempoHistory>() {
-                @Override
-                public void onResponse(@NonNull Call<TempoHistory> call, @NonNull Response<TempoHistory> response) {
-                    tempoDates.clear();
-                    if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
-                        tempoDates.addAll(response.body().getTempoDates());
-                        Log.d(LOG_TAG,"nb elements = " + tempoDates.size());
-                    }
-                    tempoDateAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<TempoHistory> call, @NonNull Throwable t) {
-
-                }
-            });
-
+            updateTempoHistory();
+        } else {
+            Log.e(LOG_TAG, "Unable to init Retrofit client");
+            finish();
         }
 
-
-
     }
+
+    private void updateTempoHistory() {
+        // Create call to getTempoDaysLeft
+        Call<TempoHistory> call = edfApi.getTempoHistory("2021", "2022");
+
+        call.enqueue(new Callback<TempoHistory>() {
+            @Override
+            public void onResponse(@NonNull Call<TempoHistory> call, @NonNull Response<TempoHistory> response) {
+                tempoDates.clear();
+                if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
+                    tempoDates.addAll(response.body().getTempoDates());
+                    Log.d(LOG_TAG,"nb elements = " + tempoDates.size());
+                }
+                tempoDateAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<TempoHistory> call, @NonNull Throwable t) {
+
+            }
+        });
+    }
+
 }
