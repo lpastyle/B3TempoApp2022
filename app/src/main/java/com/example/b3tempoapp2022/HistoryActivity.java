@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.b3tempoapp2022.databinding.ActivityHistoryBinding;
 import com.example.b3tempoapp2022.databinding.ActivityMainBinding;
@@ -65,9 +66,10 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
 
-        // Create call to getTempoDaysLeft
+        // Create call to getTempoHistory
         Call<TempoHistory> call = edfApi.getTempoHistory(yearBefore, yearNow);
 
+        binding.tempoHistoryPb.setVisibility(View.VISIBLE);
         call.enqueue(new Callback<TempoHistory>() {
             @Override
             public void onResponse(@NonNull Call<TempoHistory> call, @NonNull Response<TempoHistory> response) {
@@ -75,13 +77,17 @@ public class HistoryActivity extends AppCompatActivity {
                 if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                     tempoDates.addAll(response.body().getTempoDates());
                     Log.d(LOG_TAG,"nb elements = " + tempoDates.size());
+                } else {
+                    Log.e(LOG_TAG,"Call to getTempoHistoy() returned error code " + response.code());
                 }
                 tempoDateAdapter.notifyDataSetChanged();
+                binding.tempoHistoryPb.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(@NonNull Call<TempoHistory> call, @NonNull Throwable t) {
-
+                Log.e(LOG_TAG,"Call to getTempoHistoy() failed");
+                binding.tempoHistoryPb.setVisibility(View.GONE);
             }
         });
     }
